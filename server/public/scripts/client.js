@@ -29,15 +29,27 @@ function renderTasks(list) {
     $('#taskList').empty();
 
     for (let task of list) {
-        //TODO check if complete and change how its shown
-        $('#taskList').append(`
-        <tr data-id=${task.id}>
-        <td>
-            <input type="checkbox" data-id="${task.id}" data-complete="${task.complete}">
-        </td>
-        <td>${task.description}</td>
-        <td><button id="deleteBtn">Delete</button></td>
-        </td>
-        `);
+        if (!task.complete) {
+            //TODO check if complete and change how checkbox is shown
+            $('#taskList').append(`
+            <tr data-id=${task.id}>
+            <td>
+                <input type="checkbox" data-id="${task.id}" data-complete="${task.complete}">
+            </td>
+            <td>${task.description}</td>
+            <td><button id="deleteBtn">Delete</button></td>
+            </td>
+            `);
+        } else {
+            $('#taskList').append(`
+            <tr data-id=${task.id}>
+            <td>
+                <input type="checkbox" data-id="${task.id}" data-complete="${task.complete}" checked>
+            </td>
+            <td>${task.description}</td>
+            <td><button id="deleteBtn">Delete</button></td>
+            </td>
+            `);
+        }
     }
 }
