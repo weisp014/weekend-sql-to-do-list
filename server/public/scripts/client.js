@@ -102,9 +102,9 @@ function renderTasks(list) {
         if (!task.complete) {
             $('#taskList').append(`
             <tr data-id=${task.id} data-complete="${task.complete}">
-                <td><input id="checkboxId" type="checkbox"></td>
+                <td><input id="checkboxId" type="checkbox" class="btn btn-outline-primary"></td>
                 <td>${task.description}</td>
-                <td><button id="deleteBtn">Delete</button></td>
+                <td><button id="deleteBtn" class="btn btn-danger">Delete</button></td>
             </tr>
         `);
         } else {
@@ -112,7 +112,7 @@ function renderTasks(list) {
             <tr data-id=${task.id} data-complete="${task.complete}">
                 <td><input id="checkboxId" type="checkbox" checked></td>
                 <td>${task.description}</td>
-                <td><button id="deleteBtn">Delete</button></td>
+                <td><button id="deleteBtn" class="btn btn-danger">Delete</button></td>
             </tr>
         `);
         }
