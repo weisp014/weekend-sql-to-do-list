@@ -14,26 +14,48 @@ function addClickHandlers() {
     //delete button handler
     $('#taskList').on('click', '#deleteBtn', removeTask);
     //checkbox handler
+    $('#taskList').on('click', '#checkboxId', changeStatus);
 }
 
 // TODO PUT
+function changeStatus() {
+    console.log('inside changeStatus');
+    const idToUpdate = $(this).parent().parent().data().id;
+    const status = $(this).parent().parent().data().complete;
+    console.log(idToUpdate, status);
+    $.ajax({
+        method: 'PUT',
+        url: `/list/${idToUpdate}`,
+        data: {
+            complete: !status
+        }
+    }).then((response) => {
+        console.log('update successful');
+        getTasks();
+    }).catch((error) => {
+        alert('Error making database edit', error);
+    });
+}
 
 // POST
 function addTask() {
     console.log('in addTask');
     let task = {};
     task.description = $('#taskDescription').val();
-
-    $.ajax({
-        type: 'POST',
-        url: '/list',
-        data: task
-    }).then((response) => {
-        console.log('Add task successful', response);
-        getTasks();
-    }).catch((error) => {
-        alert('Unable to add new task. Please try again.');
-    });
+    if(task.description) {
+        $.ajax({
+            method: 'POST',
+            url: '/list',
+            data: task
+        }).then((response) => {
+            console.log('Add task successful', response);
+            getTasks();
+        }).catch((error) => {
+            alert('Unable to add new task. Please try again.', error);
+        });
+    } else {
+        alert('Fill in task description');
+    }
 }
 
 // DELETE
@@ -50,14 +72,14 @@ function removeTask() {
         getTasks();
     }).catch((error) => {
         alert('Error making database deletion', error);
-    })
+    });
 }
 
 // GET list of tasks from database
 function getTasks() {
     console.log('inside getTasks');
     $.ajax({
-        type: 'GET',
+        method: 'GET',
         url: '/list'
     }).then((response) => {
         console.log(response);

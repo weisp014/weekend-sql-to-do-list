@@ -22,13 +22,27 @@ router.get('/', (req, res) => {
 });
 
 //TODO PUT
+router.put('/:id', (req, res) => {
+    console.log('PUT request');
+    const status = req.body.complete;
+    const idToUpdate = req.params.id;
+    const sqlText = `UPDATE "tasks" SET "complete"=$1 WHERE "id"=$2;`;
+    pool.query(sqlText, [status, idToUpdate])
+    .then((result) => {
+        console.log('update successful for task id:', idToUpdate);
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log(`Error making database query: ${sqlText}`, error);
+    })
+})
 
 // POST
 router.post('/', (req, res) => {
-    const newTask = req.body;
+    const newTask = req.body.description;
     console.log('Adding task:', newTask);
     const sqlText = `INSERT INTO "tasks" ("description") VALUES ($1);`;
-    pool.query(sqlText, [newTask.description])
+    pool.query(sqlText, [newTask])
     .then((result) => {
         res.sendStatus(201);
     })
