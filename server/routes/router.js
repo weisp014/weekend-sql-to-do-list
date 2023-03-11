@@ -11,7 +11,7 @@ const pool = new pg.Pool({
 
 // GET
 router.get('/', (req, res) => {
-    let sqlText = 'SELECT * FROM "tasks" ORDER by "id";';
+    const sqlText = 'SELECT * FROM "tasks" ORDER by "id";';
     pool.query(sqlText).then(result => {
         res.send(result.rows);
     })
@@ -21,21 +21,35 @@ router.get('/', (req, res) => {
     });
 });
 
-// TODO POST
+//TODO PUT
 
-//DELETE
+// POST
+router.post('/', (req, res) => {
+    const newTask = req.body;
+    console.log('Adding task:', newTask);
+    const sqlText = `INSERT INTO "tasks" ("description") VALUES ($1);`;
+    pool.query(sqlText, [newTask.description])
+    .then((result) => {
+        res.sendStatus(201);
+    })
+    .catch((error) => {
+        console.log(`Error making database query: ${sqlText}`, error);
+    });
+});
+
+// DELETE
 router.delete('/:id', (req, res) => {
     console.log('inside delete request');
     const idToDelete = req.params.id;
     const sqlText = `DELETE FROM "tasks" WHERE "id"=$1;`;
     pool.query(sqlText, [idToDelete])
     .then((result) => {
-        console.log('Deleted');
+        console.log('Delete successful');
         res.sendStatus(200);
     })
     .catch((error) => {
         console.log(`Error making database query: ${sqlText}`, error);
-    })
-})
+    });
+});
 
 module.exports = router;

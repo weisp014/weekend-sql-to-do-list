@@ -13,8 +13,30 @@ function addClickHandlers() {
     $('#submitBtn').on('click', addTask);
     //delete button handler
     $('#taskList').on('click', '#deleteBtn', removeTask);
+    //checkbox handler
 }
 
+// TODO PUT
+
+// POST
+function addTask() {
+    console.log('in addTask');
+    let task = {};
+    task.description = $('#taskDescription').val();
+
+    $.ajax({
+        type: 'POST',
+        url: '/list',
+        data: task
+    }).then((response) => {
+        console.log('Add task successful', response);
+        getTasks();
+    }).catch((error) => {
+        alert('Unable to add new task. Please try again.');
+    });
+}
+
+// DELETE
 function removeTask() {
     console.log('in removeTask');
     const idToRemove = $(this).parent().parent().data().id;
@@ -27,12 +49,8 @@ function removeTask() {
         //refresh DOM
         getTasks();
     }).catch((error) => {
-        console.log('Error making database deletion', error);
+        alert('Error making database deletion', error);
     })
-}
-
-function addTask() {
-    console.log('in addTask');
 }
 
 // GET list of tasks from database
@@ -60,7 +78,7 @@ function renderTasks(list) {
             //TODO check if complete and change how checkbox is shown
             $('#taskList').append(`
             <tr data-id=${task.id} data-complete="${task.complete}">
-                <td><input type="checkbox"></td>
+                <td><input id="checkboxId" type="checkbox"></td>
                 <td>${task.description}</td>
                 <td><button id="deleteBtn">Delete</button></td>
             </tr>
@@ -68,7 +86,7 @@ function renderTasks(list) {
         } else {
             $('#taskList').append(`
             <tr data-id=${task.id} data-complete="${task.complete}">
-                <td><input type="checkbox" checked></td>
+                <td><input id="checkboxId" type="checkbox" checked></td>
                 <td>${task.description}</td>
                 <td><button id="deleteBtn">Delete</button></td>
             </tr>
