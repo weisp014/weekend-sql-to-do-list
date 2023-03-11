@@ -12,9 +12,9 @@ function addClickHandlers() {
     //submit button handler
     $('#submitBtn').on('click', addTask);
     //delete button handler
-    $('#taskList').on('click', '#deleteBtn', removeTask);
+    $('#taskTable').on('click', '#deleteBtn', removeTask);
     //checkbox handler
-    $('#taskList').on('click', '#checkboxId', changeStatus);
+    $('#taskTable').on('click', '#checkboxId', changeStatus);
 }
 
 // TODO PUT
@@ -56,6 +56,7 @@ function addTask() {
     } else {
         alert('Fill in task description');
     }
+    $('#taskDescription').val('')
 }
 
 // DELETE
@@ -94,10 +95,11 @@ function renderTasks(list) {
     console.log('inside renderTasks');
     //clear table
     $('#taskList').empty();
+    $('#taskComplete').empty();
 
     for (let task of list) {
+        //check status of task and change how checkbox is shown
         if (!task.complete) {
-            //TODO check if complete and change how checkbox is shown
             $('#taskList').append(`
             <tr data-id=${task.id} data-complete="${task.complete}">
                 <td><input id="checkboxId" type="checkbox"></td>
@@ -106,7 +108,7 @@ function renderTasks(list) {
             </tr>
         `);
         } else {
-            $('#taskList').append(`
+            $('#taskComplete').append(`
             <tr data-id=${task.id} data-complete="${task.complete}">
                 <td><input id="checkboxId" type="checkbox" checked></td>
                 <td>${task.description}</td>

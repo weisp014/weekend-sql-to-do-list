@@ -13,3 +13,11 @@ input {
     width: 75%;
     text-align: center;
 }
+
+h1 {
+    text-align: center;
+}
+
+#addTask {
+    text-align: center;
+}
