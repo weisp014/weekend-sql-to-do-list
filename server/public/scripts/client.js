@@ -1,11 +1,38 @@
-$(document).ready(onReady());
+$(document).ready(onReady);
 
 function onReady() {
     console.log('document loaded');
-    //TODO setup click listeners
-
     //load tasks from database on page load
     getTasks();
+    //click handlers
+    addClickHandlers();
+}
+
+function addClickHandlers() {
+    //submit button handler
+    $('#submitBtn').on('click', addTask);
+    //delete button handler
+    $('#taskList').on('click', '#deleteBtn', removeTask);
+}
+
+function removeTask() {
+    console.log('in removeTask');
+    const idToRemove = $(this).parent().parent().data().id;
+    console.log(idToRemove);
+    $.ajax({
+        method: 'DELETE',
+        url: `/list/${idToRemove}`
+    }).then((response) => {
+        console.log('Deletion complete for id:', idToRemove);
+        //refresh DOM
+        getTasks();
+    }).catch((error) => {
+        console.log('Error making database deletion', error);
+    })
+}
+
+function addTask() {
+    console.log('in addTask');
 }
 
 // GET list of tasks from database
@@ -32,24 +59,20 @@ function renderTasks(list) {
         if (!task.complete) {
             //TODO check if complete and change how checkbox is shown
             $('#taskList').append(`
-            <tr data-id=${task.id}>
-            <td>
-                <input type="checkbox" data-id="${task.id}" data-complete="${task.complete}">
-            </td>
-            <td>${task.description}</td>
-            <td><button id="deleteBtn">Delete</button></td>
-            </td>
-            `);
+            <tr data-id=${task.id} data-complete="${task.complete}">
+                <td><input type="checkbox"></td>
+                <td>${task.description}</td>
+                <td><button id="deleteBtn">Delete</button></td>
+            </tr>
+        `);
         } else {
             $('#taskList').append(`
-            <tr data-id=${task.id}>
-            <td>
-                <input type="checkbox" data-id="${task.id}" data-complete="${task.complete}" checked>
-            </td>
-            <td>${task.description}</td>
-            <td><button id="deleteBtn">Delete</button></td>
-            </td>
-            `);
+            <tr data-id=${task.id} data-complete="${task.complete}">
+                <td><input type="checkbox" checked></td>
+                <td>${task.description}</td>
+                <td><button id="deleteBtn">Delete</button></td>
+            </tr>
+        `);
         }
     }
 }

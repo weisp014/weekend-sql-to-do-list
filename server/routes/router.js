@@ -1,4 +1,3 @@
-const { Router } = require('express');
 const express = require('express');
 const router = express.Router();
 const pg = require('pg');
@@ -24,6 +23,19 @@ router.get('/', (req, res) => {
 
 // TODO POST
 
-// TODO DELETE
+//DELETE
+router.delete('/:id', (req, res) => {
+    console.log('inside delete request');
+    const idToDelete = req.params.id;
+    const sqlText = `DELETE FROM "tasks" WHERE "id"=$1;`;
+    pool.query(sqlText, [idToDelete])
+    .then((result) => {
+        console.log('Deleted');
+        res.sendStatus(200);
+    })
+    .catch((error) => {
+        console.log(`Error making database query: ${sqlText}`, error);
+    })
+})
 
 module.exports = router;
