@@ -109,7 +109,7 @@ function renderTasks(list) {
         `);
         } else {
             $('#taskComplete').append(`
-            <tr data-id=${task.id} data-complete="${task.complete}">
+            <tr data-id=${task.id} data-complete="${task.complete}" class="gray">
                 <td><input id="checkboxId" type="checkbox" checked></td>
                 <td>${task.description}</td>
                 <td><button id="deleteBtn" class="btn btn-danger">Delete</button></td>

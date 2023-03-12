@@ -1,3 +1,11 @@
+html, body {
+    background-color: lightcoral;
+}
+
+h1 {
+    color: white;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -8,15 +16,18 @@ th, td {
     text-align: center;
 }
 
-input {
-    width: 75%;
-    text-align: center;
-}
-
 h1 {
     text-align: center;
 }
 
 #addTask {
     text-align: center;
+}
+
+#checkboxId {
+    size: 40px;
+}
+
+.gray {
+    color: lightslategray;
 }
