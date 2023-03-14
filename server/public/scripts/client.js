@@ -17,7 +17,7 @@ function addClickHandlers() {
     $('#taskTable').on('click', '#checkboxId', changeStatus);
 }
 
-//PUT
+// PUT
 function changeStatus() {
     console.log('inside changeStatus');
     const idToUpdate = $(this).parent().parent().data().id;

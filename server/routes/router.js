@@ -2,8 +2,17 @@ const express = require('express');
 const router = express.Router();
 const pg = require('pg');
 
+let pool;
 // DB connection
-const pool = new pg.Pool({
+if (process.env.DATABASE_URL) {
+    pool = new pg.Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    });
+} else {
+    pool = new pg.Pool({
     database: 'weekend-to-do-app',
     host: 'localhost',
     port: 5432
@@ -21,7 +30,7 @@ router.get('/', (req, res) => {
     });
 });
 
-//TODO PUT
+// PUT
 router.put('/:id', (req, res) => {
     console.log('PUT request');
     const status = req.body.complete;
